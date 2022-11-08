@@ -39,6 +39,7 @@ config :esbuild,
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -52,7 +53,7 @@ config :petal_components,
        {PetalBoilerplateWeb.ErrorHelpers, :translate_error}
 
 config :tailwind,
-  version: "3.1.8",
+  version: "3.2.1",
   default: [
     args: ~w(
          --config=tailwind.config.js
@@ -64,4 +65,5 @@ config :tailwind,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{config_env()}.exs"
+#import_config "#{config_env()}.exs"
+import_config "#{Mix.env()}.exs"
