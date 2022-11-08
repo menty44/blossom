@@ -1,0 +1,59 @@
+<h1>Listing Users</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.user_index_path(@socket, :index)}>
+    <.live_component
+      module={PetalBoilerplateWeb.UserLive.FormComponent}
+      id={@user.id || :new}
+      title={@page_title}
+      action={@live_action}
+      user={@user}
+      return_to={Routes.user_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Firstname</th>
+      <th>Lastname</th>
+      <th>Age</th>
+      <th>Country</th>
+      <th>Gender</th>
+      <th>Avatar</th>
+      <th>Username</th>
+      <th>Dob</th>
+      <th>Status</th>
+      <th>Blacklisted</th>
+      <th>Privacy</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="users">
+    <%= for user <- @users do %>
+      <tr id={"user-#{user.id}"}>
+        <td><%= user.firstname %></td>
+        <td><%= user.lastname %></td>
+        <td><%= user.age %></td>
+        <td><%= user.country %></td>
+        <td><%= user.gender %></td>
+        <td><%= user.avatar %></td>
+        <td><%= user.username %></td>
+        <td><%= user.dob %></td>
+        <td><%= user.status %></td>
+        <td><%= user.blacklisted %></td>
+        <td><%= user.privacy %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.user_show_path(@socket, :show, user) %></span>
+          <span><%= live_patch "Edit", to: Routes.user_index_path(@socket, :edit, user) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: user.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New User", to: Routes.user_index_path(@socket, :new) %></span>
